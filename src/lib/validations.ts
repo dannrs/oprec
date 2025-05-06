@@ -1,4 +1,6 @@
-import { object, string, boolean, date, number } from 'zod';
+import { object, string, boolean, date, number, z } from 'zod';
+import { createSelectSchema, createInsertSchema } from 'drizzle-zod';
+import { profile, user } from '@/db/schema';
 
 const getPasswordSchema = (type: 'password' | 'confirmPassword') =>
   string({ required_error: `${type} is required` })
@@ -31,18 +33,31 @@ export const signInSchema = object({
   rememberMe: boolean(),
 });
 
-export const registrationSchema = object({
-  name: getNameSchema(),
-  email: getEmailSchema(),
-  tempat_lahir: string(),
-  tanggal_lahir: date().nullable(),
-  jenis_kelamin: string(),
-  agama: string(),
-  no_hp: string(),
-  instagram: string(),
-  alamat: string(),
-  asal_sekolah: string(),
-  kota_kabupaten: string(),
-  kelas: number(),
-  jenjang_pendidikan: string(),
+export const userSchema = createSelectSchema(user);
+export const profileSchema = createSelectSchema(profile);
+export const newProfileSchema = createInsertSchema(profile, {
+  nama_lengkap: (schema) => schema.min(1, 'Nama lengkap harus diisi'),
+  tempat_lahir: (schema) => schema.min(1, 'Tempat lahir harus diisi'),
+  tanggal_lahir: (schema) =>
+    schema.min(new Date('1900-01-01'), 'Tanggal lahir harus diisi'),
+  jenis_kelamin: (schema) => schema.min(1, 'Jenis kelamin harus diisi'),
+  agama: (schema) => schema.min(1, 'Agama harus diisi'),
+  no_hp: (schema) =>
+    schema.regex(
+      /^08\d{8,11}$/,
+      "No HP harus diawali dengan '08' dan terdiri dari 10-13 digit"
+    ),
+  instagram: (schema) => schema.min(1, 'Instagram harus diisi'),
+  alamat: (schema) => schema.min(1, 'Alamat harus diisi'),
+  asal_sekolah: (schema) => schema.min(1, 'Asal sekolah harus diisi'),
+  kota_kabupaten: (schema) => schema.min(1, 'Kabupaten/Kota harus diisi'),
+  kelas: (schema) => schema.min(1, 'Kelas harus diisi'),
+  jenjang_pendidikan: (schema) =>
+    schema.min(1, 'Jenjang pendidikan harus diisi'),
+}).omit({
+  id: true,
+  userId: true,
 });
+
+export type Profile = z.infer<typeof profileSchema>;
+export type NewProfile = z.infer<typeof newProfileSchema>;
