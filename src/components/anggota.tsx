@@ -13,19 +13,9 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import {
   Table,
@@ -35,145 +25,283 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
-const data: Payment[] = [
+export type Anggota = {
+  id: string
+  namaLengkap: string
+  tempatLahir: string
+  tanggalLahir: string
+  jenisKelamin: string
+  agama: string
+  email: string
+  noHp: string
+  instagram: string
+  asalSekolah: string
+  asalKota: string
+  asalWilayah: string
+  kelas: string
+  jenjangPendidikan: string
+  alamat: string
+}
+
+const data: Anggota[] = [
   {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@example.com",
+    id: "1",
+    namaLengkap: "Ahmad Rizky Pratama",
+    tempatLahir: "Bandung",
+    tanggalLahir: "2006-05-12",
+    jenisKelamin: "Laki-laki",
+    agama: "Islam",
+    email: "rizky.ahmad@gmail.com",
+    noHp: "081234567890",
+    instagram: "@rizkyahmad",
+    asalSekolah: "SMA Negeri 1 Bandung",
+    asalKota: "Bandung",
+    asalWilayah: "Wilayah 1",
+    kelas: "XI IPA 1",
+    jenjangPendidikan: "SMA",
+    alamat: "Jl. Merdeka No. 10, Bandung"
   },
   {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@example.com",
+    id: "2",
+    namaLengkap: "Siti Nurhaliza",
+    tempatLahir: "Depok",
+    tanggalLahir: "2007-01-20",
+    jenisKelamin: "Perempuan",
+    agama: "Islam",
+    email: "siti.nurhaliza@yahoo.com",
+    noHp: "081298765432",
+    instagram: "@sitinurhaliza",
+    asalSekolah: "SMA Negeri 2 Depok",
+    asalKota: "Depok",
+    asalWilayah: "Wilayah 2",
+    kelas: "X IPS 3",
+    jenjangPendidikan: "SMA",
+    alamat: "Jl. Margonda Raya No. 88, Depok"
   },
   {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@example.com",
+    id: "3",
+    namaLengkap: "Kevin Jonathan",
+    tempatLahir: "Bekasi",
+    tanggalLahir: "2005-09-15",
+    jenisKelamin: "Laki-laki",
+    agama: "Kristen",
+    email: "kevin.jonathan@mail.com",
+    noHp: "082345678901",
+    instagram: "@kevinjon",
+    asalSekolah: "SMA Kristen Bekasi",
+    asalKota: "Bekasi",
+    asalWilayah: "Wilayah 3",
+    kelas: "XII IPA 2",
+    jenjangPendidikan: "SMA",
+    alamat: "Jl. Kalimalang No. 25, Bekasi"
   },
   {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@example.com",
+    id: "4",
+    namaLengkap: "Angelina Putri",
+    tempatLahir: "Bogor",
+    tanggalLahir: "2006-12-02",
+    jenisKelamin: "Perempuan",
+    agama: "Katolik",
+    email: "angelina.putri@outlook.com",
+    noHp: "083412345678",
+    instagram: "@angelputri",
+    asalSekolah: "SMA Katolik Bogor",
+    asalKota: "Bogor",
+    asalWilayah: "Wilayah 1",
+    kelas: "XI IPS 1",
+    jenjangPendidikan: "SMA",
+    alamat: "Jl. Pajajaran No. 12, Bogor"
   },
   {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@example.com",
+    id: "5",
+    namaLengkap: "Fajar Sidik",
+    tempatLahir: "Cirebon",
+    tanggalLahir: "2007-03-30",
+    jenisKelamin: "Laki-laki",
+    agama: "Islam",
+    email: "fajar.sidik@gmail.com",
+    noHp: "081367895421",
+    instagram: "@fajarsdk",
+    asalSekolah: "SMA Negeri 1 Cirebon",
+    asalKota: "Cirebon",
+    asalWilayah: "Wilayah 3",
+    kelas: "X IPA 4",
+    jenjangPendidikan: "SMA",
+    alamat: "Jl. Kartini No. 5, Cirebon"
+  },
+  {
+    id: "6",
+    namaLengkap: "Dewi Anggraini",
+    tempatLahir: "Sukabumi",
+    tanggalLahir: "2006-07-14",
+    jenisKelamin: "Perempuan",
+    agama: "Islam",
+    email: "dewi.anggraini@gmail.com",
+    noHp: "081223456789",
+    instagram: "@dewianggraini",
+    asalSekolah: "SMA Negeri 1 Sukabumi",
+    asalKota: "Sukabumi",
+    asalWilayah: "Wilayah 4",
+    kelas: "XI IPA 3",
+    jenjangPendidikan: "SMA",
+    alamat: "Jl. Bhayangkara No. 9, Sukabumi"
+  },
+  {
+    id: "7",
+    namaLengkap: "Michael Saputra",
+    tempatLahir: "Tasikmalaya",
+    tanggalLahir: "2005-08-08",
+    jenisKelamin: "Laki-laki",
+    agama: "Budha",
+    email: "michael.saputra@mail.com",
+    noHp: "082112345678",
+    instagram: "@michaelsap",
+    asalSekolah: "SMA Budhi Luhur",
+    asalKota: "Tasikmalaya",
+    asalWilayah: "Wilayah 2",
+    kelas: "XII IPS 2",
+    jenjangPendidikan: "SMA",
+    alamat: "Jl. HZ Mustofa No. 10, Tasikmalaya"
+  },
+  {
+    id: "8",
+    namaLengkap: "Rahmawati Aulia",
+    tempatLahir: "Garut",
+    tanggalLahir: "2007-04-18",
+    jenisKelamin: "Perempuan",
+    agama: "Islam",
+    email: "rahma.aulia@gmail.com",
+    noHp: "081334567891",
+    instagram: "@rahma.aulia",
+    asalSekolah: "SMA Negeri 2 Garut",
+    asalKota: "Garut",
+    asalWilayah: "Wilayah 4",
+    kelas: "X IPS 2",
+    jenjangPendidikan: "SMA",
+    alamat: "Jl. Ahmad Yani No. 45, Garut"
+  },
+  {
+    id: "9",
+    namaLengkap: "Dimas Ardiansyah",
+    tempatLahir: "Purwakarta",
+    tanggalLahir: "2006-11-09",
+    jenisKelamin: "Laki-laki",
+    agama: "Islam",
+    email: "dimas.ardiansyah@gmail.com",
+    noHp: "083845678912",
+    instagram: "@dimasard",
+    asalSekolah: "SMA Negeri 1 Purwakarta",
+    asalKota: "Purwakarta",
+    asalWilayah: "Wilayah 3",
+    kelas: "XI IPA 2",
+    jenjangPendidikan: "SMA",
+    alamat: "Jl. Veteran No. 7, Purwakarta"
+  },
+  {
+    id: "10",
+    namaLengkap: "Nabila Syifa",
+    tempatLahir: "Cimahi",
+    tanggalLahir: "2007-02-25",
+    jenisKelamin: "Perempuan",
+    agama: "Islam",
+    email: "nabila.syifa@gmail.com",
+    noHp: "081998765432",
+    instagram: "@nabilasyf",
+    asalSekolah: "SMA Negeri 1 Cimahi",
+    asalKota: "Cimahi",
+    asalWilayah: "Wilayah 1",
+    kelas: "X IPS 1",
+    jenjangPendidikan: "SMA",
+    alamat: "Jl. Gandawijaya No. 20, Cimahi"
   },
 ]
 
-export type Payment = {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
-}
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Anggota>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
+    id: "no",
+    header: "No",
+    cell: ({ row }) => row.index + 1,
   },
   {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
+    accessorKey: "namaLengkap",
+    header: "Nama Lengkap",
+  },
+  {
+    accessorKey: "tempatLahir",
+    header: "Tempat Lahir",
+  },
+  {
+    accessorKey: "tanggalLahir",
+    header: "Tanggal Lahir",
+  },
+  {
+    accessorKey: "jenisKelamin",
+    header: "Jenis Kelamin",
+  },
+  {
+    accessorKey: "agama",
+    header: "Agama",
   },
   {
     accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+    header: "Email",
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
-
-      return <div className="text-right font-medium">{formatted}</div>
-    },
+    accessorKey: "noHp",
+    header: "No HP",
+  },
+  {
+    accessorKey: "instagram",
+    header: "Instagram",
+  },
+  {
+    accessorKey: "asalSekolah",
+    header: "Asal Sekolah",
+  },
+  {
+    accessorKey: "asalKota",
+    header: "Kota/Kabupaten",
+  },
+  {
+    accessorKey: "asalWilayah",
+    header: "Wilayah",
+  },
+  {
+    accessorKey: "kelas",
+    header: "Kelas",
+  },
+  {
+    accessorKey: "jenjangPendidikan",
+    header: "Jenjang Pendidikan",
+  },
+  {
+    accessorKey: "alamat",
+    header: "Alamat",
   },
   {
     id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
+    header: "Actions",
+    cell: () => (
+      <div className="flex gap-2">
+        <Button size="sm" variant="outline">View</Button>
+        <Button size="sm" variant="secondary">Edit</Button>
+        <Button size="sm" variant="destructive">Delete</Button>
+      </div>
+    ),
   },
 ]
 
 export function DataAnggota() {
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
@@ -199,10 +327,10 @@ export function DataAnggota() {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Cari nama lengkap..."
+          value={(table.getColumn("namaLengkap")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("namaLengkap")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -238,44 +366,33 @@ export function DataAnggota() {
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  )
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
+                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>
@@ -285,8 +402,7 @@ export function DataAnggota() {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <div className="space-x-2">
           <Button
