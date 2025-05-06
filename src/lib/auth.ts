@@ -1,13 +1,14 @@
-import { betterAuth } from "better-auth";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { admin } from "better-auth/plugins";
-import { db } from "@/db";
+import { betterAuth } from 'better-auth';
+import { drizzleAdapter } from 'better-auth/adapters/drizzle';
+import { admin } from 'better-auth/plugins';
+import { db } from '@/db';
+import { nextCookies } from 'better-auth/next-js';
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
-    provider: "pg",
+    provider: 'pg',
   }),
-  plugins: [admin()],
+  plugins: [admin(), nextCookies()],
   emailAndPassword: {
     enabled: true,
   },

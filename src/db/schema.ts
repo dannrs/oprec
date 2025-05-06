@@ -5,7 +5,10 @@ import {
   boolean,
   integer,
   date,
+  uuid,
+  serial,
 } from 'drizzle-orm/pg-core';
+import { z } from 'zod';
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
@@ -22,21 +25,22 @@ export const user = pgTable('user', {
 });
 
 export const profile = pgTable('profile', {
-  id: text('id').primaryKey(),
+  id: uuid('id').primaryKey().unique().defaultRandom(),
   userId: text('user_id')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' }),
-  tempat_lahir: text('tempat_lahir'),
-  tanggal_lahir: date('tanggal_lahir', { mode: 'date' }),
-  jenis_kelamin: text('jenis_kelamin'),
-  agama: text('agama'),
-  no_hp: text('no_hp'),
-  instagram: text('instagram'),
-  alamat: text('alamat'),
-  asal_sekolah: text('asal_sekolah'),
-  kota_kabupaten: text('kota_kabupaten'),
-  kelas: integer('kelas'),
-  jenjang_pendidikan: text('jenjang_pendidikan'),
+  nama_lengkap: text('nama_lengkap').notNull(),
+  tempat_lahir: text('tempat_lahir').notNull(),
+  tanggal_lahir: date('tanggal_lahir', { mode: 'date' }).notNull(),
+  jenis_kelamin: text('jenis_kelamin').notNull(),
+  agama: text('agama').notNull(),
+  no_hp: text('no_hp').notNull(),
+  instagram: text('instagram').notNull(),
+  alamat: text('alamat').notNull(),
+  asal_sekolah: text('asal_sekolah').notNull(),
+  kota_kabupaten: text('kota_kabupaten').notNull(),
+  kelas: text('kelas').notNull(),
+  jenjang_pendidikan: text('jenjang_pendidikan').notNull(),
 });
 
 export const session = pgTable('session', {
@@ -80,12 +84,14 @@ export const verification = pgTable('verification', {
   updatedAt: timestamp('updated_at'),
 });
 
-export const asal_sekolah = pgTable('asal_sekolah', {
-  npsn: text('npsn').primaryKey(),
-  nama_sekolah: text('nama_sekolah').notNull(),
-  kota_kabupaten: text('kota_kabupaten').notNull(),
-  provinsi: text('provinsi').notNull(),
-  jenis: text('jenis').notNull(),
+export const sekolah = pgTable('sekolah', {
+  id: serial('id').primaryKey(),
+  nama: text('nama').notNull(),
+});
+
+export const kabupaten_kota = pgTable('kabupaten_kota', {
+  id: serial('id').primaryKey(),
+  nama: text('nama').notNull(),
 });
 
 export type User = typeof user.$inferSelect;
