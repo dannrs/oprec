@@ -14,7 +14,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { ChevronDown } from "lucide-react"
-
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -31,8 +31,20 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
-export type Anggota = {
+// Langsung define type-nya di sini
+type Anggota = {
   id: string
   namaLengkap: string
   tempatLahir: string
@@ -49,8 +61,7 @@ export type Anggota = {
   jenjangPendidikan: string
   alamat: string
 }
-
-const data: Anggota[] = [
+const initialData: Anggota[] = [
   {
     id: "1",
     namaLengkap: "Ahmad Rizky Pratama",
@@ -223,89 +234,129 @@ const data: Anggota[] = [
   },
 ]
 
-export const columns: ColumnDef<Anggota>[] = [
-  {
-    id: "no",
-    header: "No",
-    cell: ({ row }) => row.index + 1,
-  },
-  {
-    accessorKey: "namaLengkap",
-    header: "Nama Lengkap",
-  },
-  {
-    accessorKey: "tempatLahir",
-    header: "Tempat Lahir",
-  },
-  {
-    accessorKey: "tanggalLahir",
-    header: "Tanggal Lahir",
-  },
-  {
-    accessorKey: "jenisKelamin",
-    header: "Jenis Kelamin",
-  },
-  {
-    accessorKey: "agama",
-    header: "Agama",
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
-  },
-  {
-    accessorKey: "noHp",
-    header: "No HP",
-  },
-  {
-    accessorKey: "instagram",
-    header: "Instagram",
-  },
-  {
-    accessorKey: "asalSekolah",
-    header: "Asal Sekolah",
-  },
-  {
-    accessorKey: "asalKota",
-    header: "Kota/Kabupaten",
-  },
-  {
-    accessorKey: "asalWilayah",
-    header: "Wilayah",
-  },
-  {
-    accessorKey: "kelas",
-    header: "Kelas",
-  },
-  {
-    accessorKey: "jenjangPendidikan",
-    header: "Jenjang Pendidikan",
-  },
-  {
-    accessorKey: "alamat",
-    header: "Alamat",
-  },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: () => (
-      <div className="flex gap-2">
-        <Button size="sm" variant="outline">View</Button>
-        <Button size="sm" variant="secondary">Edit</Button>
-        <Button size="sm" variant="destructive">Delete</Button>
-      </div>
-    ),
-  },
-]
-
 export function DataAnggota() {
+  const [anggotaData, setAnggotaData] = React.useState<Anggota[]>(initialData)
+  const [deleteId, setDeleteId] = React.useState<string | null>(null)
+
+  const handleDelete = (id: string) => {
+    setAnggotaData((prev) => prev.filter((item) => item.id !== id))
+    setDeleteId(null)
+  }
+
+  const columns: ColumnDef<Anggota>[] = [
+    {
+      id: "no",
+      header: "No",
+      cell: ({ row }) => row.index + 1,
+    },
+    {
+      accessorKey: "namaLengkap",
+      header: "Nama Lengkap",
+    },
+    {
+      accessorKey: "tempatLahir",
+      header: "Tempat Lahir",
+    },
+    {
+      accessorKey: "tanggalLahir",
+      header: "Tanggal Lahir",
+    },
+    {
+      accessorKey: "jenisKelamin",
+      header: "Jenis Kelamin",
+    },
+    {
+      accessorKey: "agama",
+      header: "Agama",
+    },
+    {
+      accessorKey: "email",
+      header: "Email",
+    },
+    {
+      accessorKey: "noHp",
+      header: "No HP",
+    },
+    {
+      accessorKey: "instagram",
+      header: "Instagram",
+    },
+    {
+      accessorKey: "asalSekolah",
+      header: "Asal Sekolah",
+    },
+    {
+      accessorKey: "asalKota",
+      header: "Kota/Kabupaten",
+    },
+    {
+      accessorKey: "asalWilayah",
+      header: "Wilayah",
+    },
+    {
+      accessorKey: "kelas",
+      header: "Kelas",
+    },
+    {
+      accessorKey: "jenjangPendidikan",
+      header: "Jenjang Pendidikan",
+    },
+    {
+      accessorKey: "alamat",
+      header: "Alamat",
+    },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => {
+        const id = row.original.id
+
+        return (
+          <div className="flex gap-2">
+            <Button asChild size="sm" variant="outline">
+              <Link href={`/anggota/view/${id}`}>View</Link>
+            </Button>
+            <Button asChild size="sm" variant="secondary">
+              <Link href={`/anggota/edit/${id}`}>Edit</Link>
+            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  size="sm"
+                  variant="destructive"
+                  onClick={() => setDeleteId(id)}
+                >
+                  Delete
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Apakah Anda yakin?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Tindakan ini tidak dapat dibatalkan. Data anggota akan dihapus secara permanen.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Batal</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => handleDelete(id)}>
+                    Yakin
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        )
+      },
+    },
+  ]
+
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
-    data,
+    data: anggotaData,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
