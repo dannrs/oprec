@@ -1,17 +1,5 @@
-import { DashboardNavbar } from "@/components/fojb/dashboard-navbar"
-import { DashboardSidebar } from "@/components/fojb/dashboard-sidebar"
-import { PengumpulanTwibbon } from "@/components/fojb/pengumpulan-twibbon"
+import { PengumpulanTwibbon } from '@/components/fojb/pengumpulan-twibbon';
 
 export default function Page() {
-  return (
-    <div className="flex h-screen bg-muted">
-      <DashboardSidebar />
-      <div className="flex flex-col flex-1">
-        <DashboardNavbar />
-        <main className="flex-1 p-6 overflow-y-auto">
-          <PengumpulanTwibbon />
-        </main>
-      </div>
-    </div>
-  )
+  return <PengumpulanTwibbon />;
 }

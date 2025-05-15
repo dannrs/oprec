@@ -1,17 +1,30 @@
-import { DashboardNavbar } from "@/components/fojb/dashboard-navbar"
-import { DashboardSidebar } from "@/components/fojb/dashboard-sidebar"
-import { InformasiDataForm } from "@/components/fojb/informasi-data-form"
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { auth } from '@/lib/auth';
+import { getRegionList } from '@/lib/data/region';
+import { getSchoolNameList } from '@/lib/data/school';
+import { getUser, getUserProfile } from '@/lib/data/user';
 
-export default function Page() {
+import { InformasiDataForm } from '@/components/fojb/information-data-form';
+
+export default async function Page() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) redirect('/login');
+
+  const user = await getUser(session.user.id);
+  const profile = await getUserProfile(session.user.id);
+  const { sekolah } = await getSchoolNameList();
+  const { region } = await getRegionList();
+
   return (
-    <div className="flex h-screen bg-muted">
-      <DashboardSidebar />
-      <div className="flex flex-col flex-1">
-        <DashboardNavbar />
-        <main className="flex-1 p-6 overflow-y-auto">
-          <InformasiDataForm />
-        </main>
-      </div>
-    </div>
-  )
+    <InformasiDataForm
+      user={user}
+      profile={profile}
+      sekolah={sekolah}
+      region={region}
+    />
+  );
 }
