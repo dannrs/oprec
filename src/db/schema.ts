@@ -14,6 +14,7 @@ export const user = pgTable('user', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
+  nomorWhatsapp: text('nomor_whatsapp').notNull(),
   emailVerified: boolean('email_verified').notNull(),
   image: text('image'),
   createdAt: timestamp('created_at').notNull(),
@@ -25,22 +26,23 @@ export const user = pgTable('user', {
 });
 
 export const profile = pgTable('profile', {
-  id: uuid('id').primaryKey().unique().defaultRandom(),
+  id: serial('id').primaryKey(),
   userId: text('user_id')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade' }),
-  nama_lengkap: text('nama_lengkap').notNull(),
-  tempat_lahir: text('tempat_lahir').notNull(),
-  tanggal_lahir: date('tanggal_lahir', { mode: 'date' }).notNull(),
-  jenis_kelamin: text('jenis_kelamin').notNull(),
+  namaLengkap: text('nama_lengkap').notNull(),
+  tempatLahir: text('tempat_lahir').notNull(),
+  tanggalLahir: date('tanggal_lahir', { mode: 'date' }).notNull(),
+  jenisKelamin: text('jenis_kelamin').notNull(),
   agama: text('agama').notNull(),
-  no_hp: text('no_hp').notNull(),
+  email: text('email').notNull().unique(),
   instagram: text('instagram').notNull(),
-  alamat: text('alamat').notNull(),
-  asal_sekolah: text('asal_sekolah').notNull(),
-  kota_kabupaten: text('kota_kabupaten').notNull(),
+  nomorWhatsapp: text('nomor_whatsapp').notNull(),
+  asalSekolah: text('asal_sekolah').notNull(),
+  asalKota: text('asal_kota').notNull(),
   kelas: text('kelas').notNull(),
-  jenjang_pendidikan: text('jenjang_pendidikan').notNull(),
+  jenjangPendidikan: text('jenjang_pendidikan').notNull(),
+  alamat: text('alamat').notNull(),
 });
 
 export const session = pgTable('session', {
@@ -92,6 +94,8 @@ export const sekolah = pgTable('sekolah', {
 export const kabupaten_kota = pgTable('kabupaten_kota', {
   id: serial('id').primaryKey(),
   nama: text('nama').notNull(),
+  wilayah: text('wilayah').notNull(),
 });
 
 export type User = typeof user.$inferSelect;
+export type Profile = typeof profile.$inferSelect;
