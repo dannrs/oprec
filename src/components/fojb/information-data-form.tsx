@@ -94,6 +94,7 @@ export function InformasiDataForm({ user, profile, sekolah, region }: Props) {
     const result = await submitRegistration(values, user);
 
     if (result.success) {
+      setIsEdit(false);
       toast.success('Pendaftaran berhasil');
     } else {
       toast.error('Pendaftaran gagal');
