@@ -71,6 +71,7 @@ export const newProfileSchema = createInsertSchema(profile, {
 }).omit({
   id: true,
   userId: true,
+  asalWilayah: true,
 });
 
 export type ResetPassword = z.infer<typeof resetPasswordSchema>;

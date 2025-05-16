@@ -7,6 +7,7 @@ import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 import { betterFetch } from '@better-fetch/fetch';
 import { getUserProfile } from '../data/user';
+import { getRegionList } from '../data/region';
 
 export async function submitRegistration(
   formData: NewProfile,
@@ -14,10 +15,14 @@ export async function submitRegistration(
 ) {
   if (!userData) return { success: false };
   const existingProfile = await getUserProfile(userData.id);
+  const regionData = await getRegionList();
 
   const data = {
     ...formData,
     userId: userData.id,
+    asalWilayah:
+      regionData.region.find((region) => region.nama === formData.asalKota)
+        ?.wilayah ?? '',
     // email: userData.email,
     // nomorWhatsapp: userData.nomorWhatsapp,
   };

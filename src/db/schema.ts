@@ -40,6 +40,7 @@ export const profile = pgTable('profile', {
   nomorWhatsapp: text('nomor_whatsapp').notNull(),
   asalSekolah: text('asal_sekolah').notNull(),
   asalKota: text('asal_kota').notNull(),
+  asalWilayah: text('asal_wilayah').notNull(),
   kelas: text('kelas').notNull(),
   jenjangPendidikan: text('jenjang_pendidikan').notNull(),
   alamat: text('alamat').notNull(),
