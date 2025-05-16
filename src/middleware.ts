@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSession } from './lib/data/session';
-import { getUser } from './lib/data/user';
+import { betterFetch } from '@better-fetch/fetch';
+import { Session } from './lib/auth';
 
 const authRoutes = ['/login', '/register'];
 const passwordRoutes = ['/reset-password', '/forgot-password'];
@@ -12,8 +12,19 @@ export default async function middleware(request: NextRequest) {
   const isPasswordRoute = passwordRoutes.includes(pathname);
   const isAdminRoute = adminRoutes.includes(pathname);
 
-  const session = await getSession();
-  const user = await getUser(session.userId);
+  //   const session = await getSession();
+  //   const user = await getUser(session.userId);
+
+  const { data: session } = await betterFetch<Session>(
+    '/api/auth/get-session',
+    {
+      baseURL: process.env.BETTER_AUTH_URL,
+      headers: {
+        //get the cookie from the request
+        cookie: request.headers.get('cookie') || '',
+      },
+    }
+  );
 
   if (!session) {
     if (isAuthRoute || isPasswordRoute) {
@@ -26,7 +37,7 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
-  if (isAdminRoute && user?.role !== 'admin') {
+  if (isAdminRoute && session.user?.role !== 'admin') {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
