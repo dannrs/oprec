@@ -22,10 +22,10 @@ export function DashboardContent() {
           <h3 className="font-semibold mb-2">Status Pendaftaran</h3>
           <Badge className="bg-green-100 text-green-800">sudah lengkap</Badge>
         </div>
-        <div className="border p-4 rounded-md bg-white">
+        {/* <div className="border p-4 rounded-md bg-white">
           <h3 className="font-semibold mb-2">Status Upload Twibbon</h3>
           <Badge className="bg-green-100 text-green-800">sudah submit</Badge>
-        </div>
+        </div> */}
       </div>
 
       {/* Program Studi */}
@@ -36,16 +36,21 @@ export function DashboardContent() {
       </div> */}
 
       {/* Alerts */}
-      <Alert className="border-green-500 bg-green-50 text-green-800">
+      {/* <Alert className="border-green-500 bg-green-50 text-green-800">
         <AlertDescription>
           ✅ Terimakasih! Berkas kamu telah tersubmit, nantikan informasi selanjutnya.
         </AlertDescription>
-      </Alert>
+      </Alert> */}
 
       <Alert>
         <AlertDescription>
           ✨ Selamat, anda telah melakukan pendaftaran anggota Forum OSIS Jawa Barat Generasi 13 <b>FOJB Gen 13</b><br />
           Silakan untuk bergabung ke channel Whatsapp Resmi FOJB:{" "}
+          <a href="https://whatsapp.com/channel/0029Vab3p1T4tRs14pKOa425" className="underline text-blue-600">
+          https://whatsapp.com/channel/0029Vab3p1T4tRs14pKOa425
+          </a>
+          <br />
+          Silakan untuk bergabung ke grup Whatsapp Anggota FOJB Generasi 13:{" "}
           <a href="https://whatsapp.com/channel/0029Vab3p1T4tRs14pKOa425" className="underline text-blue-600">
           https://whatsapp.com/channel/0029Vab3p1T4tRs14pKOa425
           </a>

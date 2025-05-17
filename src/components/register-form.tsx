@@ -92,7 +92,7 @@ export function RegisterForm({
                           <Input
                             id='name'
                             type='text'
-                            placeholder='John Doe'
+                            placeholder='Jhon Doe'
                             {...field}
                           />
                         </FormControl>
