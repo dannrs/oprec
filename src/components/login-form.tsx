@@ -31,11 +31,13 @@ import {
 import { Checkbox } from './ui/checkbox';
 import LoadingButton from './loading-button';
 import Link from 'next/link';
+import { Eye, EyeClosed } from 'lucide-react';
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -48,6 +50,7 @@ export function LoginForm({
   });
 
   const onSubmit = async (values: z.infer<typeof signInSchema>) => {
+    console.log(values);
     await authClient.signIn.email(
       {
         email: values.email,
@@ -116,12 +119,25 @@ export function LoginForm({
                           </Link>
                         </div>
                         <FormControl>
-                          <Input
-                            id='password'
-                            type='password'
-                            placeholder='Password'
-                            {...field}
-                          />
+                          <div className='relative'>
+                            <Input
+                              id='password'
+                              type={showPassword ? 'text' : 'password'}
+                              placeholder='Password'
+                              {...field}
+                            />
+                            {showPassword ? (
+                              <Eye
+                                className='absolute top-1/2 right-2 size-4 -translate-y-1/2 cursor-pointer'
+                                onClick={() => setShowPassword(!showPassword)}
+                              />
+                            ) : (
+                              <EyeClosed
+                                className='absolute top-1/2 right-2 size-4 -translate-y-1/2 cursor-pointer'
+                                onClick={() => setShowPassword(!showPassword)}
+                              />
+                            )}
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
