@@ -1,0 +1,50 @@
+services:
+  web:
+    build: .
+    image: ghcr.io/dannrs/oprec:latest
+    ports:
+      - '3000:3000'
+    volumes:
+      - uploads:/app/uploads
+    secrets:
+      - db-password
+    environment:
+      - APP_URL=http://oprec.forumosisjabar.id
+      - BETTER_AUTH_SECRET_FILE=/run/secrets/better-auth-secret
+      - BETTER_AUTH_URL=http://oprec.forumosisjabar.id
+      - RESEND_API_KEY_FILE=/run/secrets/resend-api-key
+      - POSTGRES_HOST=db
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+      - POSTGRES_USER=forumosisjabar
+      - POSTGRES_DB=oprec_db
+      - POSTGRES_PORT=5432
+      - POSTGRES_SSLMODE=disable
+      - NODE_ENV=production
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=forumosisjabar
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+      - POSTGRES_DB=oprec_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    secrets:
+      - db-password
+
+volumes:
+  uploads:
+  pgdata:
+
+secrets:
+  db-password:
+    external: true
+  resend-api-key:
+    external: true
+  better-auth-secret:
+    external: true

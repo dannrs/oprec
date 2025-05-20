@@ -1,0 +1,78 @@
+services:
+  traefik:
+    image: traefik:v3.1
+    command:
+      - '--providers.docker'
+      - '--providers.docker.exposedbydefault=false'
+      - '--entryPoints.websecure.address=:443'
+      - '--certificatesresolvers.myresolver.acme.tlschallenge=true'
+      - '--certificatesresolvers.myresolver.acme.email=fojbdev@gmail.com'
+      - '--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json'
+      - '--entrypoints.web.address=:80'
+      - '--entrypoints.web.http.redirections.entrypoint.to=websecure'
+      - '--entrypoints.web.http.redirections.entrypoint.scheme=https'
+    ports:
+      - mode: host
+        protocol: tcp
+        published: 80
+        target: 80
+      - mode: host
+        protocol: tcp
+        published: 443
+        target: 443
+    volumes:
+      - letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  web:
+    image: ghcr.io/dannrs/oprec:latest
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.services.web.loadbalancer.server.port=3000'
+      - 'traefik.http.routers.web.rule=Host(`oprec.forumosisjabar.id`)'
+      - 'traefik.http.routers.web.entrypoints=websecure'
+      - 'traefik.http.routers.web.tls.certresolver=myresolver'
+    volumes:
+      - uploads:/app/uploads
+    secrets:
+      - db-password
+    environment:
+      - APP_URL=https://oprec.forumosisjabar.id
+      - BETTER_AUTH_SECRET_FILE=/run/secrets/better-auth-secret
+      - BETTER_AUTH_URL=https://oprec.forumosisjabar.id
+      - RESEND_API_KEY_FILE=/run/secrets/resend-api-key
+      - POSTGRES_HOST=db
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+      - POSTGRES_USER=forumosisjabar
+      - POSTGRES_DB=oprec_db
+      - POSTGRES_PORT=5432
+      - POSTGRES_SSLMODE=disable
+      - NODE_ENV=production
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=forumosisjabar
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+      - POSTGRES_DB=oprec_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    secrets:
+      - db-password
+
+volumes:
+  uploads:
+  pgdata:
+  letsencrypt:
+
+secrets:
+  db-password:
+    external: true
+  resend-api-key:
+    external: true
+  better-auth-secret:
+    external: true

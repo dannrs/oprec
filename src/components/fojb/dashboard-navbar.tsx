@@ -1,7 +1,6 @@
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { User } from '@/db/schema';
 import { getUser } from '@/lib/data/user';
-import { Bell, LogOut, Settings } from 'lucide-react';
+import { LogOut, Settings } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -24,7 +23,7 @@ export async function DashboardNavbar({ userId }: { userId: string }) {
         {/* <Bell className='text-muted-foreground h-5 w-5' /> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div className="cursor-pointer">
+            <div className='cursor-pointer'>
               <Avatar>
                 <AvatarFallback>
                   {user?.name
@@ -37,20 +36,16 @@ export async function DashboardNavbar({ userId }: { userId: string }) {
               </Avatar>
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <div className="px-3 py-2 text-sm font-medium text-muted-foreground">
+          <DropdownMenuContent align='end'>
+            <div className='text-muted-foreground px-3 py-2 text-sm font-medium'>
               {user?.name}
             </div>
-            <DropdownMenuItem
-              className="cursor-pointer"
-            >
-              <Settings className="mr-2 h-4 w-4" />
+            <DropdownMenuItem className='cursor-pointer'>
+              <Settings className='mr-2 h-4 w-4' />
               Setting
             </DropdownMenuItem>
-            <DropdownMenuItem
-              className="text-red-500 cursor-pointer"
-            >
-              <LogOut className="mr-2 h-4 w-4" />
+            <DropdownMenuItem className='cursor-pointer text-red-500'>
+              <LogOut className='mr-2 h-4 w-4' />
               Logout
             </DropdownMenuItem>
           </DropdownMenuContent>

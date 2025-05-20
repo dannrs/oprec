@@ -6,19 +6,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { auth } from '@/lib/auth';
 import { getSession } from '@/lib/data/session';
 import { getUser } from '@/lib/data/user';
 import { LucideMail, MoveRight } from 'lucide-react';
-import { headers } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { toast } from 'sonner';
 
 export default async function VerifyEmailPage() {
   const session = await getSession();
-  if (!session) redirect('/login');
-
   const user = await getUser(session.userId);
   if (!user) redirect('/login');
 

@@ -1,4 +1,3 @@
-import { DashboardContent } from '@/components/fojb/dashboard-content';
 import { DashboardNavbar } from '@/components/fojb/dashboard-navbar';
 import { DashboardSidebar } from '@/components/fojb/dashboard-sidebar';
 import { getSession } from '@/lib/data/session';

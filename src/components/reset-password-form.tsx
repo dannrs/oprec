@@ -1,16 +1,11 @@
 'use client';
 
-import { redirect, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ErrorContext } from '@better-fetch/fetch';
 import { authClient } from '@/lib/auth-client';
-import {
-  type ForgotPassword,
-  forgotPasswordSchema,
-  ResetPassword,
-  resetPasswordSchema,
-} from '@/lib/validations';
+import { ResetPassword, resetPasswordSchema } from '@/lib/validations';
 
 import { cn } from '@/lib/utils';
 import {
@@ -34,8 +29,6 @@ import LoadingButton from './loading-button';
 import { CircleX, MoveRight } from 'lucide-react';
 import Link from 'next/link';
 import { buttonVariants } from './ui/button';
-import { validateResetPasswordToken } from '@/lib/actions';
-import { useEffect, useState } from 'react';
 
 export function ResetPasswordForm({
   className,

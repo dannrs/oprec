@@ -7,11 +7,17 @@ import { resend } from '@/email/resend';
 import { VerifyEmail } from '@/email/email-template';
 import { ResetPasswordEmail } from '@/email/reset-password-template';
 import { ac, admin, anggota, pengurus } from './auth/permissions';
+import { BETTER_AUTH_SECRET } from '@/constants';
 
 export const auth = betterAuth({
+  secret:
+    process.env.NODE_ENV === 'production'
+      ? BETTER_AUTH_SECRET
+      : process.env.BETTER_AUTH_SECRET,
   database: drizzleAdapter(db, {
     provider: 'pg',
   }),
+  trustedOrigins: ['http://localhost:3000'],
   plugins: [
     adminPlugin({
       ac,
