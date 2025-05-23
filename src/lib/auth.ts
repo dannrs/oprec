@@ -17,7 +17,6 @@ export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: 'pg',
   }),
-  trustedOrigins: ['http://localhost:3000'],
   plugins: [
     adminPlugin({
       ac,
@@ -35,10 +34,7 @@ export const auth = betterAuth({
     enabled: true,
     sendResetPassword: async ({ user, url }) => {
       await resend.emails.send({
-        // prod
-        // from: 'Forum OSIS Jawa Barat <no-reply@transactional.forumosisjabar.id>',
-        // dev
-        from: 'Forum OSIS Jawa Barat <no-reply@mail.danni.my.id>',
+        from: `Forum OSIS Jawa Barat ${process.env.NODE_ENV === 'production' ? '<no-reply@transactional.forumosisjabar.id>' : '<no-reply@mail.danni.my.id>'}`,
         to: user.email,
         subject: 'Reset Password',
         react: ResetPasswordEmail({
@@ -52,12 +48,9 @@ export const auth = betterAuth({
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, token }) => {
-      const verificationUrl = `${process.env.BETTER_AUTH_URL}/api/auth/verify-email?token=${token}&callbackURL=http://localhost:3000/email-verified`;
+      const verificationUrl = `${process.env.BETTER_AUTH_URL}/api/auth/verify-email?token=${token}&callbackURL=${process.env.BETTER_AUTH_URL}/email-verified`;
       await resend.emails.send({
-        // prod
-        // from: 'Forum OSIS Jawa Barat <no-reply@transactional.forumosisjabar.id>',
-        // dev
-        from: 'Forum OSIS Jawa Barat <no-reply@mail.danni.my.id>',
+        from: `Forum OSIS Jawa Barat ${process.env.NODE_ENV === 'production' ? '<no-reply@transactional.forumosisjabar.id>' : '<no-reply@mail.danni.my.id>'}`,
         to: user.email,
         subject: 'Verifikasi Alamat Email Anda',
         react: VerifyEmail({

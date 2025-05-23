@@ -12,7 +12,7 @@ services:
       - APP_URL=http://oprec.forumosisjabar.id
       - BETTER_AUTH_SECRET_FILE=/run/secrets/better-auth-secret
       - BETTER_AUTH_URL=http://oprec.forumosisjabar.id
-      - RESEND_API_KEY_FILE=/run/secrets/resend-api-key
+      - RESEND_API_KEY_FILE=/run/secrets/resend-api-key-prod
       - POSTGRES_HOST=db
       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
       - POSTGRES_USER=forumosisjabar
@@ -44,7 +44,7 @@ volumes:
 secrets:
   db-password:
     external: true
-  resend-api-key:
+  resend-api-key-prod:
     external: true
   better-auth-secret:
     external: true

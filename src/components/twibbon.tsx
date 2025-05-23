@@ -1,12 +1,13 @@
-"use client"
+'use client';
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
-import { useState } from "react"
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Textarea } from '@/components/ui/textarea';
+import Link from 'next/link';
+import { useState } from 'react';
 
 export function TwibbonAnggota() {
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState(false);
 
   const caption = `📢 COMING SOON: PROGRAM KADERISASI GENERASI 13 📢
 
@@ -40,37 +41,36 @@ __________
 🎙️ Spotify : Jam Istirahat!
 __________
 
-#ForumOSISJawaBarat #SalamPemimpinMudaJawaBarat #OSISJabar #FOJB #JabarJuara #IndonesiaEmas2045 #12thGeneration #2025 #SatuDekadeFOJB #PROKSI #Generasi13`
+#ForumOSISJawaBarat #SalamPemimpinMudaJawaBarat #OSISJabar #FOJB #JabarJuara #IndonesiaEmas2045 #12thGeneration #2025 #SatuDekadeFOJB #PROKSI #Generasi13`;
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(caption)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
+    navigator.clipboard.writeText(caption);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
-    <div className="pt-12 px-4 lg:px-6">
-  <Card>
-    <CardHeader>
-      <CardTitle>Twibbon Anggota FOJB Gen 13</CardTitle>
-      <a
-        href="https://twb.nz/iggs2025"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-sm text-blue-600 underline"
-      >
-        Klik disini
-      </a>
-    </CardHeader>
-    <CardContent className="space-y-4 pt-4">
-      <p className="font-semibold">Caption:</p>
-      <Textarea value={caption} readOnly rows={18} />
-      <Button onClick={handleCopy} variant="outline">
-        {copied ? "Tersalin!" : "Salin Caption"}
-      </Button>
-    </CardContent>
-  </Card>
-</div>
-
-  )
+    <Card>
+      <CardHeader>
+        <CardTitle>Twibbon Anggota FOJB Gen 13</CardTitle>
+        <Link
+          href='https://twb.nz/iggs2025'
+          target='_blank'
+          rel='noopener noreferrer'
+          className='cursor-pointer text-sm text-blue-600 underline'
+        >
+          <Button variant='outline' size='sm' className='mt-1'>
+            Klik disini
+          </Button>
+        </Link>
+      </CardHeader>
+      <CardContent className='space-y-4 pt-4'>
+        <p className='font-semibold'>Caption:</p>
+        <Textarea value={caption} readOnly rows={18} />
+        <Button onClick={handleCopy} variant='outline'>
+          {copied ? 'Tersalin!' : 'Salin Caption'}
+        </Button>
+      </CardContent>
+    </Card>
+  );
 }
