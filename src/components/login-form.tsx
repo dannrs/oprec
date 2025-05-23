@@ -1,7 +1,6 @@
 'use client';
 
 import { z } from 'zod';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -30,13 +29,12 @@ import {
 import { Checkbox } from './ui/checkbox';
 import LoadingButton from './loading-button';
 import Link from 'next/link';
-import { Eye, EyeClosed } from 'lucide-react';
+import { InputPassword } from './input-password';
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
-  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -118,25 +116,7 @@ export function LoginForm({
                           </Link>
                         </div>
                         <FormControl>
-                          <div className='relative'>
-                            <Input
-                              id='password'
-                              type={showPassword ? 'text' : 'password'}
-                              placeholder='Password'
-                              {...field}
-                            />
-                            {showPassword ? (
-                              <Eye
-                                className='absolute top-1/2 right-2 size-4 -translate-y-1/2 cursor-pointer'
-                                onClick={() => setShowPassword(!showPassword)}
-                              />
-                            ) : (
-                              <EyeClosed
-                                className='absolute top-1/2 right-2 size-4 -translate-y-1/2 cursor-pointer'
-                                onClick={() => setShowPassword(!showPassword)}
-                              />
-                            )}
-                          </div>
+                          <InputPassword id='password' {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -177,10 +157,6 @@ export function LoginForm({
           </Form>
         </CardContent>
       </Card>
-      <div className='text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4'>
-        By clicking continue, you agree to our <a href='#'>Terms of Service</a>{' '}
-        and <a href='#'>Privacy Policy</a>.
-      </div>
     </div>
   );
 }

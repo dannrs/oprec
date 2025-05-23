@@ -15,7 +15,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import {
   Form,
@@ -26,6 +25,7 @@ import {
   FormMessage,
 } from './ui/form';
 import LoadingButton from './loading-button';
+import { InputPassword } from './input-password';
 import { CircleX, MoveRight } from 'lucide-react';
 import Link from 'next/link';
 import { buttonVariants } from './ui/button';
@@ -131,12 +131,7 @@ export function ResetPasswordForm({
                       <FormItem className='grid gap-3'>
                         <FormLabel htmlFor='password'>Password Baru</FormLabel>
                         <FormControl>
-                          <Input
-                            id='password'
-                            type='password'
-                            placeholder='Password'
-                            {...field}
-                          />
+                          <InputPassword id='password' {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -151,9 +146,8 @@ export function ResetPasswordForm({
                           Ulangi Password
                         </FormLabel>
                         <FormControl>
-                          <Input
+                          <InputPassword
                             id='confirmPassword'
-                            type='password'
                             placeholder='Ulangi Password'
                             {...field}
                           />

@@ -2,7 +2,6 @@
 
 import { z } from 'zod';
 import { toast } from 'sonner';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -28,15 +27,12 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import LoadingButton from '@/components/loading-button';
-import { Eye, EyeClosed } from 'lucide-react';
+import { InputPassword } from './input-password';
 
 export function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const router = useRouter();
 
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -148,25 +144,7 @@ export function RegisterForm({
                       <FormItem className='grid gap-3'>
                         <FormLabel htmlFor='password'>Password</FormLabel>
                         <FormControl>
-                          <div className='relative'>
-                            <Input
-                              id='password'
-                              type={showPassword ? 'text' : 'password'}
-                              placeholder='Password'
-                              {...field}
-                            />
-                            {showPassword ? (
-                              <Eye
-                                className='absolute top-1/2 right-2 size-4 -translate-y-1/2 cursor-pointer'
-                                onClick={() => setShowPassword(!showPassword)}
-                              />
-                            ) : (
-                              <EyeClosed
-                                className='absolute top-1/2 right-2 size-4 -translate-y-1/2 cursor-pointer'
-                                onClick={() => setShowPassword(!showPassword)}
-                              />
-                            )}
-                          </div>
+                          <InputPassword id='password' {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -177,33 +155,15 @@ export function RegisterForm({
                     name='confirmPassword'
                     render={({ field }) => (
                       <FormItem className='grid gap-3'>
-                        <FormLabel htmlFor='confirmPassword'>
+                        <FormLabel htmlFor='confirm-password'>
                           Konfirmasi Password
                         </FormLabel>
                         <FormControl>
-                          <div className='relative'>
-                            <Input
-                              id='confirmPassword'
-                              type={showConfirmPassword ? 'text' : 'password'}
-                              placeholder='Konfirmasi Password'
-                              {...field}
-                            />
-                            {showConfirmPassword ? (
-                              <Eye
-                                className='absolute top-1/2 right-2 size-4 -translate-y-1/2 cursor-pointer'
-                                onClick={() =>
-                                  setShowConfirmPassword(!showConfirmPassword)
-                                }
-                              />
-                            ) : (
-                              <EyeClosed
-                                className='absolute top-1/2 right-2 size-4 -translate-y-1/2 cursor-pointer'
-                                onClick={() =>
-                                  setShowConfirmPassword(!showConfirmPassword)
-                                }
-                              />
-                            )}
-                          </div>
+                          <InputPassword
+                            id='confirm-password'
+                            placeholder='Konfirmasi Password'
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -224,10 +184,6 @@ export function RegisterForm({
           </Form>
         </CardContent>
       </Card>
-      <div className='text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4'>
-        By creating an account, you agree to our{' '}
-        <a href='#'>Terms of Service</a> and <a href='#'>Privacy Policy</a>.
-      </div>
     </div>
   );
 }
