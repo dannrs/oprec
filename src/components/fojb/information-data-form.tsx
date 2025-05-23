@@ -29,13 +29,14 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { CalendarIcon, Check, ChevronsUpDown } from 'lucide-react';
+import { CalendarIcon, Check, ChevronsUpDown, Pencil } from 'lucide-react';
 import { NewProfile, newProfileSchema } from '@/lib/validations';
 import LoadingButton from '@/components/loading-button';
 import { useRef, useState } from 'react';
 import DatePicker from '@/components/date-picker';
 import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface Props {
   user: User | null;
@@ -48,6 +49,7 @@ export function InformasiDataForm({ user, profile, sekolah, region }: Props) {
   const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const isMobile = useIsMobile();
 
   const form = useForm<NewProfile>({
     resolver: zodResolver(newProfileSchema),
@@ -74,9 +76,11 @@ export function InformasiDataForm({ user, profile, sekolah, region }: Props) {
 
     if (result.success) {
       setIsEdit(false);
-      toast.success('Pendaftaran berhasil');
+      toast.success('Sukses', {
+        description: 'Informasi berhasil diperbarui',
+      });
     } else {
-      toast.error('Pendaftaran gagal');
+      toast.error('Informasi gagal diperbarui');
     }
   };
 
@@ -98,11 +102,12 @@ export function InformasiDataForm({ user, profile, sekolah, region }: Props) {
             onClick={handleEdit}
             className='bg-green-600 text-white hover:bg-green-700'
           >
-            Edit Biodata
+            <Pencil className='size-4' />
+            {isMobile ? <></> : <span>Edit</span>}
           </Button>
         )}
       </CardHeader>
-      <CardContent className='space-y-6 pb-10'>
+      <CardContent className='space-y-6'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className='grid gap-5 md:grid-cols-2'>
@@ -422,12 +427,12 @@ export function InformasiDataForm({ user, profile, sekolah, region }: Props) {
                                 className='hover:bg-accent cursor-pointer px-4 py-2 text-sm'
                                 onClick={() => {
                                   setOpen(false);
-                                  form.setValue('asalSekolah', 'Lainnya', {
+                                  form.setValue('asalSekolah', field.value, {
                                     shouldDirty: true,
                                   });
                                 }}
                               >
-                                Lainnya
+                                {field.value}
                               </div>
                             )}
                           </div>
@@ -488,6 +493,8 @@ export function InformasiDataForm({ user, profile, sekolah, region }: Props) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
+                        <SelectItem value='8'>8</SelectItem>
+                        <SelectItem value='9'>9</SelectItem>
                         <SelectItem value='10'>10</SelectItem>
                         <SelectItem value='11'>11</SelectItem>
                         <SelectItem value='12'>12</SelectItem>
@@ -517,6 +524,8 @@ export function InformasiDataForm({ user, profile, sekolah, region }: Props) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
+                        <SelectItem value='SMP'>SMP</SelectItem>
+                        <SelectItem value='MTs'>MTs</SelectItem>
                         <SelectItem value='SMA'>SMA</SelectItem>
                         <SelectItem value='SMK'>SMK</SelectItem>
                         <SelectItem value='MA'>MA</SelectItem>

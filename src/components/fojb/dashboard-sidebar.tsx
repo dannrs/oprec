@@ -1,110 +1,170 @@
-"use client"
+'use client';
 
-import Image from "next/image"
-import { usePathname } from "next/navigation"
-import { Home, FileText, Image as ImageIcon, Settings, User, Key} from "lucide-react"
-import Link from "next/link"
-import clsx from "clsx"
-import { useState } from "react"
+import { usePathname } from 'next/navigation';
+import {
+  Home,
+  FileText,
+  Image as ImageIcon,
+  Settings,
+  User,
+  Key,
+  ChevronRight,
+} from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+} from '../ui/sidebar';
+import { cn } from '@/lib/utils';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '../ui/collapsible';
+import { SiteLogo } from '../site-logo';
 
-export function DashboardSidebar() {
+export function DashboardSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
+  const [collapsibleOpen, setCollapsibleOpen] = useState(false);
+
   return (
-    <aside className="w-64 bg-white border-r p-6 flex flex-col justify-between h-screen">
-      <div>
-        {/* Logo naik ke atas (margin-bottom lebih kecil) */}
-        <div className="flex items-center gap-2 mb-6">
-          <Image src="/logo.png" alt="FOJB Logo" width={52} height={52} className="rounded-sm" />
-        </div>
-        <nav className="space-y-2">
-          <SidebarLink icon={<Home size={18} />} label="Home" href="/fojb" />
-          <SidebarLink icon={<FileText size={18} />} label="Informasi Data" href="/fojb/informasi-data" />
-          <SidebarLink icon={<ImageIcon size={18} />} label="Twibbon" href="/fojb/twibbon" />
-          <SettingMenu />
-        </nav>
-      </div>
+    <Sidebar collapsible='offcanvas' {...props}>
+      <SidebarHeader>
+        <SidebarMenu className='p-2'>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              size='lg'
+              asChild
+              className='hover:bg-transparent'
+            >
+              <SiteLogo position='left' size='sm' />
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
 
-      <div className="text-xs text-gray-500 text-left pt-6 border-t mt-6">
-        <p className="leading-snug">
-          Copyright ©2025<br />
+      <SidebarContent>
+        <SidebarMenu className='px-4'>
+          <SidebarMenuItem>
+            <SidebarLink
+              icon={<Home className='size-4' />}
+              label='Home'
+              href='/fojb'
+            />
+          </SidebarMenuItem>
+
+          <SidebarMenuItem>
+            <SidebarLink
+              icon={<FileText className='size-4' />}
+              label='Informasi Data'
+              href='/fojb/informasi-data'
+            />
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarLink
+              icon={<ImageIcon className='size-4' />}
+              label='Twibbon'
+              href='/fojb/twibbon'
+            />
+          </SidebarMenuItem>
+
+          <Collapsible
+            defaultOpen={collapsibleOpen}
+            onOpenChange={setCollapsibleOpen}
+            className='group/collapsible'
+          >
+            <SidebarGroup>
+              <SidebarGroupLabel
+                asChild
+                className='group/label py-2 text-gray-700 hover:bg-green-50 hover:text-green-700'
+              >
+                <CollapsibleTrigger>
+                  <div
+                    className={cn(
+                      'flex items-center gap-3 rounded-md px-3 text-sm transition-colors'
+                    )}
+                  >
+                    <Settings className='inline size-4' />
+                    <span>Pengaturan</span>
+                  </div>
+                  <ChevronRight className='mr-1 ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90' />
+                </CollapsibleTrigger>
+              </SidebarGroupLabel>
+              <CollapsibleContent>
+                <SidebarGroupContent>
+                  <SidebarMenuSub>
+                    <SidebarMenuSubItem>
+                      <SidebarLink
+                        icon={<User className='size-4' />}
+                        label='Profil'
+                        href='/fojb/profile'
+                      />
+                    </SidebarMenuSubItem>
+                    <SidebarMenuSubItem>
+                      <SidebarLink
+                        icon={<Key className='size-4' />}
+                        label='Ganti Password'
+                        href='/fojb/ganti-password'
+                      />
+                    </SidebarMenuSubItem>
+                  </SidebarMenuSub>
+                </SidebarGroupContent>
+              </CollapsibleContent>
+            </SidebarGroup>
+          </Collapsible>
+        </SidebarMenu>
+      </SidebarContent>
+
+      <SidebarFooter className='mt-6 border-t pt-6 text-left text-xs text-gray-500'>
+        <p className='leading-snug'>
+          Copyright ©2025
+          <br />
           Forum OSIS Jawa Barat
         </p>
-      </div>
-    </aside>
-  )
+      </SidebarFooter>
+    </Sidebar>
+  );
 }
 
-function SidebarLink({ icon, label, href, className }: { icon: React.ReactNode; label: string; href: string; className?: string }) {
-  const pathname = usePathname()
-  const isActive = pathname === href
+function SidebarLink({
+  icon,
+  label,
+  href,
+  className,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  href: string;
+  className?: string;
+}) {
+  const pathname = usePathname();
+  const isActive = pathname === href;
 
   return (
     <Link
       href={href}
-      className={clsx(
-        "flex items-center gap-3 text-sm rounded-md px-3 py-2 transition-colors",
+      className={cn(
+        'flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
         isActive
-          ? "bg-green-100 text-green-700 font-semibold"
-          : "text-gray-700 hover:bg-green-50 hover:text-green-700",
+          ? 'bg-green-100 font-semibold text-green-700'
+          : 'text-gray-700 hover:bg-green-50 hover:text-green-700',
         className
       )}
     >
       {icon}
       {label}
     </Link>
-  )
-}
-
-function SettingMenu() {
-  const pathname = usePathname()
-  const [open, setOpen] = useState(true) // default buka menu Setting
-
-  // cek jika aktif ada di salah satu halaman Setting atau submenu-nya
-  const isActive = ["/fojb/setting-user", "/fojb/profile", "/fojb/change-password"].includes(pathname)
-
-  return (
-    <div>
-      <button
-        onClick={() => setOpen(!open)}
-        className={clsx(
-          "flex items-center gap-3 text-sm rounded-md px-3 py-2 w-full text-left transition-colors",
-          isActive
-            ? "bg-green-100 text-green-700 font-semibold"
-            : "text-gray-700 hover:bg-green-50 hover:text-green-700"
-        )}
-      >
-        <Settings size={18} />
-        <span>Setting</span>
-        <svg
-          className={clsx("ml-auto h-4 w-4 transition-transform duration-200", open ? "rotate-180" : "")}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          viewBox="0 0 24 24"
-        >
-          <path d="M6 9l6 6 6-6" />
-        </svg>
-      </button>
-
-      {open && (
-        <div className="ml-7 mt-1 flex flex-col space-y-1">
-          <SidebarLink
-            href="/fojb/profile"
-            label="Profile"
-            icon={<User size={16} />}
-            className={clsx(
-              pathname === "/fojb/profile" ? "font-semibold text-green-700" : "text-gray-700 hover:text-green-700"
-            )}
-          />
-          <SidebarLink
-            href="/fojb/change-password"
-            label="Change Password"
-            icon={<Key size={16} />}
-            className={clsx(
-              pathname === "/fojb/change-password" ? "font-semibold text-green-700" : "text-gray-700 hover:text-green-700"
-            )}
-          />
-        </div>
-      )}
-    </div>
-  )
+  );
 }
