@@ -1,7 +1,6 @@
 'use client';
 
 import { z } from 'zod';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,7 +9,6 @@ import { authClient } from '@/lib/auth-client';
 import { signInSchema } from '@/lib/validations';
 
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -31,6 +29,7 @@ import {
 import { Checkbox } from './ui/checkbox';
 import LoadingButton from './loading-button';
 import Link from 'next/link';
+import { InputPassword } from './input-password';
 
 export function LoginForm({
   className,
@@ -48,6 +47,7 @@ export function LoginForm({
   });
 
   const onSubmit = async (values: z.infer<typeof signInSchema>) => {
+    console.log(values);
     await authClient.signIn.email(
       {
         email: values.email,
@@ -116,12 +116,7 @@ export function LoginForm({
                           </Link>
                         </div>
                         <FormControl>
-                          <Input
-                            id='password'
-                            type='password'
-                            placeholder='Password'
-                            {...field}
-                          />
+                          <InputPassword id='password' {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -162,10 +157,6 @@ export function LoginForm({
           </Form>
         </CardContent>
       </Card>
-      <div className='text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4'>
-        By clicking continue, you agree to our <a href='#'>Terms of Service</a>{' '}
-        and <a href='#'>Privacy Policy</a>.
-      </div>
     </div>
   );
 }

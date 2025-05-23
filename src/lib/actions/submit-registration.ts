@@ -5,7 +5,6 @@ import type { NewProfile } from '@/lib/validations';
 import { profile, User, user } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
-import { betterFetch } from '@better-fetch/fetch';
 import { getUserProfile } from '../data/user';
 import { getRegionList } from '../data/region';
 

@@ -46,6 +46,13 @@ export const resetPasswordSchema = object({
   confirmPassword: getPasswordSchema('Konfirmasi Password'),
 });
 
+// change password manually from user profile
+export const changePasswordSchema = object({
+  currentPassword: getPasswordSchema('Password'),
+  newPassword: getPasswordSchema('Password'),
+  confirmPassword: getPasswordSchema('Password'),
+});
+
 export const userSchema = createSelectSchema(user);
 export const profileSchema = createSelectSchema(profile);
 export const newProfileSchema = createInsertSchema(profile, {
@@ -74,6 +81,7 @@ export const newProfileSchema = createInsertSchema(profile, {
   asalWilayah: true,
 });
 
+export type ChangePassword = z.infer<typeof changePasswordSchema>;
 export type ResetPassword = z.infer<typeof resetPasswordSchema>;
 export type ForgotPassword = z.infer<typeof forgotPasswordSchema>;
 export type Profile = z.infer<typeof profileSchema>;

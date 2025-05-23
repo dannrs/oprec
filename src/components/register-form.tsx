@@ -2,8 +2,7 @@
 
 import { z } from 'zod';
 import { toast } from 'sonner';
-import { useState } from 'react';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ErrorContext } from '@better-fetch/fetch';
@@ -28,6 +27,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import LoadingButton from '@/components/loading-button';
+import { InputPassword } from './input-password';
 
 export function RegisterForm({
   className,
@@ -144,12 +144,7 @@ export function RegisterForm({
                       <FormItem className='grid gap-3'>
                         <FormLabel htmlFor='password'>Password</FormLabel>
                         <FormControl>
-                          <Input
-                            id='password'
-                            type='password'
-                            placeholder='Password'
-                            {...field}
-                          />
+                          <InputPassword id='password' {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -160,13 +155,12 @@ export function RegisterForm({
                     name='confirmPassword'
                     render={({ field }) => (
                       <FormItem className='grid gap-3'>
-                        <FormLabel htmlFor='confirmPassword'>
+                        <FormLabel htmlFor='confirm-password'>
                           Konfirmasi Password
                         </FormLabel>
                         <FormControl>
-                          <Input
-                            id='confirmPassword'
-                            type='password'
+                          <InputPassword
+                            id='confirm-password'
                             placeholder='Konfirmasi Password'
                             {...field}
                           />
@@ -190,10 +184,6 @@ export function RegisterForm({
           </Form>
         </CardContent>
       </Card>
-      <div className='text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4'>
-        By creating an account, you agree to our{' '}
-        <a href='#'>Terms of Service</a> and <a href='#'>Privacy Policy</a>.
-      </div>
     </div>
   );
 }

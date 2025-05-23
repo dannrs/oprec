@@ -3,12 +3,9 @@ import {
   text,
   timestamp,
   boolean,
-  integer,
   date,
-  uuid,
   serial,
 } from 'drizzle-orm/pg-core';
-import { z } from 'zod';
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
@@ -100,3 +97,4 @@ export const kabupaten_kota = pgTable('kabupaten_kota', {
 
 export type User = typeof user.$inferSelect;
 export type Profile = typeof profile.$inferSelect;
+export type SekolahSelect = typeof sekolah.$inferSelect;
