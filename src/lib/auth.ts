@@ -3,7 +3,7 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { admin as adminPlugin } from 'better-auth/plugins';
 import { db } from '@/db';
 import { nextCookies } from 'better-auth/next-js';
-import { resend } from '@/email/resend';
+import { getResend } from '@/email/resend';
 import { VerifyEmail } from '@/email/email-template';
 import { ResetPasswordEmail } from '@/email/reset-password-template';
 import { ac, admin, anggota, pengurus } from './auth/permissions';
@@ -33,6 +33,7 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     sendResetPassword: async ({ user, url }) => {
+      const resend = getResend();
       await resend.emails.send({
         from: `Forum OSIS Jawa Barat ${process.env.NODE_ENV === 'production' ? '<no-reply@transactional.forumosisjabar.id>' : '<no-reply@mail.danni.my.id>'}`,
         to: user.email,
@@ -48,6 +49,7 @@ export const auth = betterAuth({
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, token }) => {
+      const resend = getResend();
       const verificationUrl = `${process.env.BETTER_AUTH_URL}/api/auth/verify-email?token=${token}&callbackURL=${process.env.BETTER_AUTH_URL}/email-verified`;
       await resend.emails.send({
         from: `Forum OSIS Jawa Barat ${process.env.NODE_ENV === 'production' ? '<no-reply@transactional.forumosisjabar.id>' : '<no-reply@mail.danni.my.id>'}`,
