@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-const DIR_PATH = path.resolve(`/app/uploads`);
+/* const DIR_PATH = path.resolve(`/app/uploads`);
 if (!fs.existsSync(DIR_PATH)) {
   fs.mkdirSync(DIR_PATH, { recursive: true });
-}
+} */
 
 export async function POST(req: NextRequest) {
   try {
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-    const filePath = path.resolve(DIR_PATH, filename);
+    const filePath = path.resolve('/uploads', filename);
 
     fs.writeFileSync(filePath, buffer);
 
