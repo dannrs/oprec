@@ -37,7 +37,7 @@ export function SiteLogo({
         />
         <div className='grid flex-1 text-sm leading-tight'>
           <span className='truncate font-medium'>FOJB</span>
-          <span className='truncate text-xs text-gray-500'>
+          <span className='text-muted-foreground truncate text-xs'>
             Forum OSIS Jawa Barat
           </span>
         </div>

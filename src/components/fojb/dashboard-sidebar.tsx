@@ -24,6 +24,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
+  SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '../ui/sidebar';
 import { cn } from '@/lib/utils';
@@ -44,12 +45,8 @@ export function DashboardSidebar({
       <SidebarHeader>
         <SidebarMenu className='p-2'>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              size='lg'
-              asChild
-              className='hover:bg-transparent'
-            >
-              <SiteLogo position='left' size='sm' />
+            <SidebarMenuButton size='lg' asChild className='!bg-transparent'>
+              <SiteLogo position='left' size='sm' href='/fojb' />
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -88,7 +85,7 @@ export function DashboardSidebar({
             <SidebarGroup>
               <SidebarGroupLabel
                 asChild
-                className='group/label py-2 text-gray-700 hover:bg-green-50 hover:text-green-700'
+                className='group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground py-2'
               >
                 <CollapsibleTrigger>
                   <div
@@ -106,14 +103,14 @@ export function DashboardSidebar({
                 <SidebarGroupContent>
                   <SidebarMenuSub>
                     <SidebarMenuSubItem>
-                      <SidebarLink
+                      <SidebarSubLink
                         icon={<User className='size-4' />}
                         label='Profil'
                         href='/fojb/profile'
                       />
                     </SidebarMenuSubItem>
                     <SidebarMenuSubItem>
-                      <SidebarLink
+                      <SidebarSubLink
                         icon={<Key className='size-4' />}
                         label='Ganti Password'
                         href='/fojb/ganti-password'
@@ -127,13 +124,9 @@ export function DashboardSidebar({
         </SidebarMenu>
       </SidebarContent>
 
-      <SidebarFooter className='mt-6 border-t pt-6 text-left text-xs text-gray-500'>
-        <p className='leading-snug'>
-          Copyright ©2025
-          <br />
-          Forum OSIS Jawa Barat
-        </p>
-      </SidebarFooter>
+      {/* <SidebarFooter className='mt-6 border-t pt-6 text-left text-xs text-gray-500'>
+        {`© ${new Date().getFullYear()} Forum OSIS Jawa Barat. All rights reserved.`}
+      </SidebarFooter> */}
     </Sidebar>
   );
 }
@@ -153,18 +146,47 @@ function SidebarLink({
   const isActive = pathname === href;
 
   return (
-    <Link
-      href={href}
-      className={cn(
-        'flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
-        isActive
-          ? 'bg-green-100 font-semibold text-green-700'
-          : 'text-gray-700 hover:bg-green-50 hover:text-green-700',
-        className
-      )}
-    >
-      {icon}
-      {label}
-    </Link>
+    <SidebarMenuButton asChild isActive={isActive} className='h-9'>
+      <Link
+        href={href}
+        className={cn(
+          'flex items-center gap-3 px-3 text-sm transition-colors',
+          className
+        )}
+      >
+        {icon}
+        {label}
+      </Link>
+    </SidebarMenuButton>
+  );
+}
+
+function SidebarSubLink({
+  icon,
+  label,
+  href,
+  className,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  href: string;
+  className?: string;
+}) {
+  const pathname = usePathname();
+  const isActive = pathname === href;
+
+  return (
+    <SidebarMenuSubButton asChild isActive={isActive} className='h-9'>
+      <Link
+        href={href}
+        className={cn(
+          'flex items-center gap-3 px-3 text-sm transition-colors',
+          className
+        )}
+      >
+        {icon}
+        {label}
+      </Link>
+    </SidebarMenuSubButton>
   );
 }

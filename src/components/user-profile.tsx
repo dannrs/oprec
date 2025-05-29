@@ -31,9 +31,9 @@ export function UserProfile({ user }: { user: User | null }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className='size-10 cursor-pointer rounded-full grayscale'>
+        <Avatar className='size-10 cursor-pointer rounded-full'>
           <AvatarImage src={user?.image ?? ''} alt={user?.name} />
-          <AvatarFallback className='rounded-lg'>
+          <AvatarFallback className='grayscale'>
             {user?.name
               ?.split(' ')
               .map((n) => n[0])
@@ -44,7 +44,7 @@ export function UserProfile({ user }: { user: User | null }) {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className='w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg'
+        className='w-(--radix-dropdown-menu-trigger-width) min-w-56 space-y-1.5 rounded-lg'
         side='bottom'
         align='end'
         sideOffset={4}
@@ -53,7 +53,7 @@ export function UserProfile({ user }: { user: User | null }) {
           <div className='flex items-center gap-2 px-1 py-1.5 text-left text-sm'>
             <Avatar className='size-8 rounded-full grayscale'>
               <AvatarImage src={user?.image ?? ''} alt={user?.name} />
-              <AvatarFallback className='rounded-lg'>
+              <AvatarFallback className='grayscale'>
                 {user?.name
                   ?.split(' ')
                   .map((n) => n[0])
@@ -70,19 +70,17 @@ export function UserProfile({ user }: { user: User | null }) {
             </div>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem
             className='cursor-pointer'
             onClick={() => router.push('/fojb/profile')}
           >
-            <Settings className='size-4' />
+            <Settings className='text-foreground size-4' />
             Settings
           </DropdownMenuItem>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout} className='cursor-pointer'>
-          <LogOut className='size-4' />
+          <LogOut className='text-foreground size-4' />
           Log out
         </DropdownMenuItem>
       </DropdownMenuContent>

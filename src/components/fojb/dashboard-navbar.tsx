@@ -12,7 +12,7 @@ export function DashboardNavbar({ user }: { user: User | null }) {
   const isMobile = useIsMobile();
 
   return (
-    <header className='flex items-center justify-between px-6 py-4 shadow-sm'>
+    <header className='dark:bg-secondary flex items-center justify-between border-b bg-white px-6 py-4'>
       {isMobile && (
         <Button variant='outline' size='sm' onClick={toggleSidebar}>
           <Menu className='size-4' />

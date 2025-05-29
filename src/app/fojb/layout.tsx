@@ -24,7 +24,7 @@ export default async function FOJBLayout({
       <DashboardSidebar variant='inset' />
       <SidebarInset>
         <DashboardNavbar user={user} />
-        <main className='bg-muted flex-1 overflow-y-auto p-6'>{children}</main>
+        <main className='flex-1 overflow-y-auto p-6'>{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );
