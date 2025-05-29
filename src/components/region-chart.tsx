@@ -1,7 +1,11 @@
 'use client';
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
-import { ChartContainer, ChartLegend, ChartTooltip } from '../ui/chart';
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartTooltip,
+} from '@/components/ui/chart';
 
 const chartConfig = {
   wilayahI: {

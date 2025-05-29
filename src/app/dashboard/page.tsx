@@ -3,14 +3,14 @@ import { SectionCards } from '@/components/section-cards';
 import { SiteHeader } from '@/components/site-header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { Views } from '@/components/views';
-import GenderChart from '@/components/charts/gender-chart';
+import GenderChart from '@/components/gender-chart';
 import {
   getUsersGenderStats,
   getUsersRegionStats,
   getUsersSchoolStats,
 } from '@/lib/data/user';
-import SchoolChart from '@/components/charts/gender-chart';
-import RegionChart from '@/components/charts/region-chart';
+import SchoolChart from '@/components/gender-chart';
+import RegionChart from '@/components/region-chart';
 
 export default async function Page() {
   const totalGender = await getUsersGenderStats();

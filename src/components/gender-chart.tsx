@@ -1,7 +1,11 @@
 'use client';
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
-import { ChartContainer, ChartLegend, ChartTooltip } from '../ui/chart';
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartTooltip,
+} from '@/components/ui/chart';
 
 const chartConfig = {
   male: {
@@ -14,7 +18,7 @@ const chartConfig = {
   },
 };
 
-export default function SchoolChart({
+export default function GenderChart({
   data,
 }: {
   data: { name: string; total: number }[];
