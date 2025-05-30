@@ -4,7 +4,7 @@ import { auth } from './auth';
 import { ac, admin, anggota, pengurus } from './auth/permissions';
 
 export const authClient = createAuthClient({
-  baseURL: process.env.BETTER_AUTH_URL || process.env.VERCEL_URL,
+  baseURL: process.env.BETTER_AUTH_URL || `https://${process.env.VERCEL_URL}`,
   plugins: [
     adminClient({
       ac,

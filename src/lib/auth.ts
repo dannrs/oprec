@@ -10,7 +10,7 @@ import { ac, admin, anggota, pengurus } from './auth/permissions';
 import { BETTER_AUTH_SECRET } from '@/constants';
 
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL || process.env.VERCEL_URL,
+  baseURL: process.env.BETTER_AUTH_URL || `https://${process.env.VERCEL_URL}`,
   secret:
     process.env.NODE_ENV === 'production'
       ? BETTER_AUTH_SECRET
@@ -56,7 +56,8 @@ export const auth = betterAuth({
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, token }) => {
       const resend = getResend();
-      const baseUrl = process.env.BETTER_AUTH_URL || process.env.VERCEL_URL;
+      const baseUrl =
+        process.env.BETTER_AUTH_URL || `https://${process.env.VERCEL_URL}`;
       const verificationUrl = `${baseUrl}/api/auth/verify-email?token=${token}&callbackURL=${process.env.BETTER_AUTH_URL}/email-verified`;
       await resend.emails.send({
         from: `Forum OSIS Jawa Barat ${process.env.NODE_ENV === 'production' ? '<no-reply@transactional.forumosisjabar.id>' : '<no-reply@mail.danni.my.id>'}`,
