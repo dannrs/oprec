@@ -32,7 +32,7 @@ export function DashboardContent({
           <CardTitle>Status Pendaftaran</CardTitle>
         </CardHeader>
         <CardContent>
-          {profile ? (
+          {!profile ? (
             <Badge variant='destructive'>Belum Lengkap</Badge>
           ) : (
             <Badge className='bg-accent text-accent-foreground'>

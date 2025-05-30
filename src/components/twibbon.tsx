@@ -57,9 +57,9 @@ __________
           href='https://twb.nz/iggs2025'
           target='_blank'
           rel='noopener noreferrer'
-          className='cursor-pointer text-sm text-blue-600 underline'
+          className='cursor-pointer text-sm underline'
         >
-          <Button variant='outline' size='sm' className='mt-1'>
+          <Button size='sm' className='mt-1'>
             Klik disini
           </Button>
         </Link>

@@ -1,6 +1,5 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import {
   Home,
   FileText,
@@ -10,8 +9,6 @@ import {
   Key,
   ChevronRight,
 } from 'lucide-react';
-import Link from 'next/link';
-import { useState } from 'react';
 import {
   Sidebar,
   SidebarContent,
@@ -23,22 +20,20 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
-  SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '../ui/sidebar';
-import { cn } from '@/lib/utils';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from '../ui/collapsible';
 import { SiteLogo } from '../site-logo';
+import { SidebarSubLink } from '../sidebarsub-link';
+import { SidebarLink } from '../sidebar-link';
 
 export function DashboardSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
-  const [collapsibleOpen, setCollapsibleOpen] = useState(false);
-
   return (
     <Sidebar collapsible='offcanvas' {...props}>
       <SidebarHeader>
@@ -76,22 +71,14 @@ export function DashboardSidebar({
             />
           </SidebarMenuItem>
 
-          <Collapsible
-            defaultOpen={collapsibleOpen}
-            onOpenChange={setCollapsibleOpen}
-            className='group/collapsible'
-          >
+          <Collapsible className='group/collapsible'>
             <SidebarGroup>
               <SidebarGroupLabel
                 asChild
                 className='group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground py-2'
               >
                 <CollapsibleTrigger>
-                  <div
-                    className={cn(
-                      'flex items-center gap-3 rounded-md px-3 text-sm transition-colors'
-                    )}
-                  >
+                  <div className='flex items-center gap-3 rounded-md px-3 text-sm transition-colors'>
                     <Settings className='inline size-4' />
                     <span>Pengaturan</span>
                   </div>
@@ -127,65 +114,5 @@ export function DashboardSidebar({
         {`© ${new Date().getFullYear()} Forum OSIS Jawa Barat. All rights reserved.`}
       </SidebarFooter> */}
     </Sidebar>
-  );
-}
-
-function SidebarLink({
-  icon,
-  label,
-  href,
-  className,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  href: string;
-  className?: string;
-}) {
-  const pathname = usePathname();
-  const isActive = pathname === href;
-
-  return (
-    <SidebarMenuButton asChild isActive={isActive} className='h-9'>
-      <Link
-        href={href}
-        className={cn(
-          'flex items-center gap-3 px-3 text-sm transition-colors',
-          className
-        )}
-      >
-        {icon}
-        {label}
-      </Link>
-    </SidebarMenuButton>
-  );
-}
-
-function SidebarSubLink({
-  icon,
-  label,
-  href,
-  className,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  href: string;
-  className?: string;
-}) {
-  const pathname = usePathname();
-  const isActive = pathname === href;
-
-  return (
-    <SidebarMenuSubButton asChild isActive={isActive} className='h-9'>
-      <Link
-        href={href}
-        className={cn(
-          'flex items-center gap-3 px-3 text-sm transition-colors',
-          className
-        )}
-      >
-        {icon}
-        {label}
-      </Link>
-    </SidebarMenuSubButton>
   );
 }

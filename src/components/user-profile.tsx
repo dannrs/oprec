@@ -8,6 +8,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 import { LogOut, Settings } from 'lucide-react';
@@ -69,18 +70,20 @@ export function UserProfile({ user }: { user: User | null }) {
             </div>
           </div>
         </DropdownMenuLabel>
+
+        <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem
             className='cursor-pointer'
             onClick={() => router.push('/fojb/profile')}
           >
             <Settings className='text-foreground size-4' />
-            Settings
+            Pengaturan
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuItem onClick={handleLogout} className='cursor-pointer'>
           <LogOut className='text-foreground size-4' />
-          Log out
+          Keluar
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
