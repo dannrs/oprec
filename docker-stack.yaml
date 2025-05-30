@@ -39,9 +39,9 @@ services:
       - resend-api-key-prod
       - db-password
     environment:
-      - APP_URL=http://web:3000
+      - APP_URL=https://oprec.forumosisjabar.id
       - BETTER_AUTH_SECRET_FILE=/run/secrets/better-auth-secret
-      - BETTER_AUTH_URL=http://web:3000
+      - BETTER_AUTH_URL=https://oprec.forumosisjabar.id
       - RESEND_API_KEY_FILE=/run/secrets/resend-api-key-prod
       - POSTGRES_HOST=db
       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password

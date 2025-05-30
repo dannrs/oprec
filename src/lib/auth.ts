@@ -19,7 +19,6 @@ export const auth = betterAuth({
   }),
   trustedOrigins: [
     'http://localhost:3000',
-    'http://web:3000',
     'https://oprec-ashy.vercel.app',
     'https://oprec.forumosisjabar.id',
   ],
