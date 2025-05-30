@@ -17,6 +17,11 @@ export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: 'pg',
   }),
+  trustedOrigins: [
+    'http://localhost:3000',
+    process.env.VERCEL_URL!,
+    'https://oprec.forumosisjabar.id',
+  ],
   plugins: [
     adminPlugin({
       ac,
