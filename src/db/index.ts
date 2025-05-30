@@ -5,10 +5,9 @@ import * as schema from '@/db/schema';
 import { DATABASE_URL } from '@/constants';
 
 const pool = new Pool({
-  connectionString:
-    process.env.NODE_ENV === 'production'
-      ? DATABASE_URL
-      : process.env.DATABASE_URL,
+  connectionString: process.env.POSTGRES_PASSWORD_FILE
+    ? DATABASE_URL
+    : process.env.DATABASE_URL,
 });
 
 export const db = drizzle(pool, { schema, logger: true });

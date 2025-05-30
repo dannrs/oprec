@@ -10,13 +10,18 @@ import { ac, admin, anggota, pengurus } from './auth/permissions';
 import { BETTER_AUTH_SECRET } from '@/constants';
 
 export const auth = betterAuth({
-  secret:
-    process.env.NODE_ENV === 'production'
-      ? BETTER_AUTH_SECRET
-      : process.env.BETTER_AUTH_SECRET,
+  baseURL: process.env.BETTER_AUTH_URL,
+  secret: process.env.BETTER_AUTH_SECRET_FILE
+    ? BETTER_AUTH_SECRET
+    : process.env.BETTER_AUTH_SECRET,
   database: drizzleAdapter(db, {
     provider: 'pg',
   }),
+  trustedOrigins: [
+    'http://localhost:3000',
+    'https://oprec-ashy.vercel.app',
+    'https://oprec.forumosisjabar.id',
+  ],
   plugins: [
     adminPlugin({
       ac,

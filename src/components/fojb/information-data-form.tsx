@@ -98,10 +98,7 @@ export function InformasiDataForm({ user, profile, sekolah, region }: Props) {
       <CardHeader className='flex flex-row items-center justify-between'>
         <CardTitle>Informasi Data Diri</CardTitle>
         {!isEdit && (
-          <Button
-            onClick={handleEdit}
-            className='bg-green-600 text-white hover:bg-green-700'
-          >
+          <Button onClick={handleEdit}>
             <Pencil className='size-4' />
             {isMobile ? <></> : <span>Edit</span>}
           </Button>
@@ -168,7 +165,7 @@ export function InformasiDataForm({ user, profile, sekolah, region }: Props) {
                           <Button
                             variant={'outline'}
                             className={cn(
-                              'w-full pl-3 text-left font-normal',
+                              'dark:bg-input/30 w-full bg-transparent pl-3 text-left font-normal',
                               !field.value && 'text-muted-foreground'
                             )}
                             disabled={!isEdit}
@@ -353,9 +350,15 @@ export function InformasiDataForm({ user, profile, sekolah, region }: Props) {
                 control={form.control}
                 name='asalSekolah'
                 render={({ field }) => {
-                  const filteredOptions = sekolah.filter((item) =>
-                    item.nama.toLowerCase().includes(field.value.toLowerCase())
-                  );
+                  const filteredOptions =
+                    field.value.length >= 2
+                      ? sekolah.filter((item) =>
+                          item.nama
+                            .toLowerCase()
+                            .includes(field.value.toLowerCase())
+                        )
+                      : [];
+                  const limitedOptions = filteredOptions.slice(0, 50);
                   return (
                     <FormItem>
                       <FormLabel htmlFor='asal-sekolah' className='mb-2 block'>
@@ -396,8 +399,12 @@ export function InformasiDataForm({ user, profile, sekolah, region }: Props) {
                           align='start'
                         >
                           <div className='max-h-[180px] overflow-y-auto'>
-                            {filteredOptions.length > 0 ? (
-                              filteredOptions.map((option) => (
+                            {field.value.length < 2 ? (
+                              <div className='text-muted-foreground px-4 py-2 text-center text-sm'>
+                                Ketik minimal 2 huruf untuk mencari sekolah
+                              </div>
+                            ) : filteredOptions.length > 0 ? (
+                              limitedOptions.map((option) => (
                                 <div
                                   key={option.id}
                                   className='hover:bg-accent cursor-pointer p-2 text-sm text-wrap'
